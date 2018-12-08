@@ -1,0 +1,155 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Happy Holiday VR Experience Card</title>
+    <meta name="description" content="A Season WebVR Card Experience. Created By Michael McAnally, December 5, 2018 using A-Frame and wonderful open source javascript libraries!"></meta>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="gray-translucent" />
+
+    <script src="https://rocketvirtual.com/webvr/aframe-master/dist/aframe-master.min.js"></script>
+    <script src="https://rocketvirtual.com/webvr/aframe-super-hands-component-master/dist/super-hands.min.js"></script>
+    <script src="https://rocketvirtual.com/webvr/kframe-master/components/animation/dist/aframe-animation-component.min.js"></script>
+    <script src="https://rocketvirtual.com/webvr/aframe-environment-component-master/dist/aframe-environment-component.js"></script>
+    <script src="https://rocketvirtual.com/webvr/aframe-alongpath-component-master/dist/aframe-alongpath-component.min.js" ></script>
+    <script src="https://rocketvirtual.com/webvr/aframe-curve-component-master/dist/aframe-curve-component.min.js"></script>
+    <script src="https://rocketvirtual.com/webvr/aframe-extras-master/dist/aframe-extras.min.js"></script>
+    <script src="https://rocketvirtual.com/webvr/aframe-event-set-component-master/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://rocketvirtual.com/webvr/aframe-mouse-cursor-component-master/dist/aframe-mouse-cursor-component.min.js"></script>
+    <script src="https://rocketvirtual.com/webvr/kframe-master/components/text-geometry/dist/aframe-text-geometry-component.min.js"></script>
+
+    <script src="https://rocketvirtual.com/webvr/aframe-particle-system-component-master/dist/aframe-particle-system-component.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://rocketvirtual.com/webvr/aframe-super-hands-component-master/examples/assets/examples.css">
+
+    <script type="text/javascript">
+
+
+//   Solves Google mute of audio problem (and it is...) https://stackoverflow.com/questions/47921013/play-sound-on-click-in-a-frame?answertab=active#tab-top
+
+AFRAME.registerComponent('audiohandler', {
+  init:function() {
+     let playing = false;
+     let audio = document.querySelector("#playAudio");
+     this.el.addEventListener('click', () => {
+
+          if(!playing) {
+              audio.play();
+           } else {
+              audio.pause();
+              audio.currentTime = 0;
+           }
+           playing = !playing;
+     });
+  }
+})
+
+      function playSound() {
+
+         //alert("Sound playing functional!!!");
+        }
+
+  </script>
+
+  </head>
+<body>
+    <button id="playButton" type="button">Play Music</button>
+
+    <audio id="playAudio" autoplay loop>
+    	    <!-- Jingle Bells Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 3.0 License
+http://creativecommons.org/licenses/by/3.0/ -->
+        <source src="https://rocketvirtual.com/webvr/music/JingleBells2.mp3" type="audio/mpeg">
+
+    </audio>
+
+ <a-scene>
+
+ 	<a-assets>
+        <a-mixin id="pointer" raycaster="showLine: true; objects: .clickable, a-link"
+                  super-hands="colliderEvent: raycaster-intersection;
+                               colliderEventProperty: els;
+                               colliderEndEvent:raycaster-intersection-cleared;
+                               colliderEndEventProperty: clearedEls;" >
+
+        <a-mixin id="controller-right" mixin="pointer"
+                 vive-controls="hand: right" oculus-touch-controls="hand: right"
+                 windows-motion-controls="hand: right"
+                 gearvr-controls daydream-controls oculus-go-controls >
+
+
+        <a-asset-item id="xmas" src="https://rocketvirtual.com/webvr/gltf/xmas.glb"></a-asset-item>
+
+       <img crossorigin="anonymous" id="music-image_on" src="https://rocketvirtual.com/webvr/images/music.png">
+
+        <!-- Setup color and fonts   -->
+        <img crossorigin="anonymous" id="pink" src="https://rocketvirtual.com/webvr/images/fontcolor.png" />
+
+        <a-asset-item id="dawningFont" src="https://rocketvirtual.com/webvr/kframe-master/components/text-geometry/examples/vaporwave/fonts/dawningOfANewDayRegular.typeface.json"></a-asset-item>
+
+        <a-asset-item id="exoFont" src="https://rocketvirtual.com/webvr/kframe-master/components/text-geometry/examples/vaporwave/fonts/exo2Black.typeface.json"></a-asset-item>
+
+        <a-asset-item id="exoItalicFont" src="https://rocketvirtual.com/webvr/kframe-master/components/text-geometry/examples/vaporwave/fonts/exo2BlackItalic.typeface.json"></a-asset-item>
+
+
+    </a-assets>
+
+
+    <!-- Zoom and move the camera in for dramatic effects in browser window -->
+            <a-camera look-controls wasd-controls mouse-cursor id="camera_zoom" position="0 1.6 0" user-height="1.6"
+                                animation="property: position;
+                                         dur: 15000;
+                                         from: 0 32 55;
+                                         to: 0 1.6 0;
+                                         easing: easeInOutSine;
+                                         loop: false" >
+
+                                         	<a-entity id="rhand" mixin="controller-right" ></a-entity>
+            </a-camera>
+
+
+    <!-- It's Snowing!!!  -->
+	<a-entity position="0 2.25 -15" particle-system="preset: snow; particleCount: 250"></a-entity>
+
+	<!-- Snowman Xmas tree scene  -->
+	<a-entity gltf-model="#xmas" scale="2.7 2.7 2.7" position="0 -.15 -6"></a-entity>
+
+	<a-entity text-geometry="value:Happy Holidays!;size:5;style:italics;bevelEnabled:true;bevelSize:0;bevelThickness:1.389;curveSegments:2.15" ;="" font:="" #dawningfont;="" bevelenabled:="" true;="" bevelsize:="" 0.05;="" bevelthickness:="" curvesegments:="" 12;="" size:="" .15;="" height:="" 0;"="" material="color:lavenderblush;metalness:1;roughness:0;sphericalEnvMap: #pink" position="-5.45 6.54 5.3" scale="0.25 0.25 0.25"  animation__rotate="property: rotation; dur: 20000;easing: linear; loop: true; to: 0 360 0"  animation__second="property: position; dir: alternate; dur: 12000; easing: easeInSine; loop: true; from: -5.45 6.54 5.3; to: -5.45 16.54 5.3" begin="20000"></a-entity>
+
+ 	<a-box id="playButton" class="clickable" position="-1.30 0.64 -6" material="src: #music-image_on" scale="1.25 1.25 0.25" onclick="playSound();" audiohandler="" geometry=""></a-box>
+
+	<a-entity light="type:spot;intensity:0.42"></a-entity>
+
+
+    <!-- Tune the world environment to the desired settings  -->
+
+    <a-entity id="onplanet" environment="preset: starry; groundColor:#ffffff"></a-entity>
+ 
+    <a-entity class="environment" position="-1.2 2.94 3.03" light="intensity: 1.219; castShadow: true; shadowCameraLeft: -10; shadowCameraBottom: -10; shadowCameraRight: 10; shadowCameraTop: 10"></a-entity>
+
+    <a-entity class="environmentDressing environment" visible="false"></a-entity>
+
+
+</a-scene>
+<script>
+//Google Code for un-audio mute
+// Existing code unchanged.
+window.onload = function() {
+  var context = new AudioContext();
+  // Setup all nodes
+
+}
+
+// One-liner to resume playback when user interacted with the page.
+document.querySelector('button').addEventListener('click', function() {
+  context.resume().then(() => {
+    console.log('Playback resumed successfully');
+  });
+});
+
+</script>
+
+</body>
+</html>
